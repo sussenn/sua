@@ -1,0 +1,10 @@
+server:
+  port: 8201
+spring:
+  application:
+    name: data-analysis
+  profiles:
+    active: '@profileActive@'
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
