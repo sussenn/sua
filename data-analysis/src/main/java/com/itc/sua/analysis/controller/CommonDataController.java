@@ -1,6 +1,7 @@
 package com.itc.sua.analysis.controller;
 
 import com.itc.sua.analysis.pojo.dto.CommonDataAddReq;
+import com.itc.sua.analysis.pojo.entity.CommonDataDO;
 import com.itc.sua.analysis.service.CommonDataService;
 import com.itc.sua.common.pojo.R;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class CommonDataController {
     }
 
     @GetMapping("/findByEveId/{eveId}")
-    public R findByEveId(@PathVariable String eveId) {
+    public R<CommonDataDO> findByEveId(@PathVariable String eveId) {
         return R.success(commonDataService.findByEveId(eveId));
     }
 }

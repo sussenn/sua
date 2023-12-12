@@ -1,0 +1,10 @@
+server:
+  port: 8202
+spring:
+  application:
+    name: device
+  profiles:
+    active: '@profileActive@'
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8

@@ -9,7 +9,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>data-analysis</artifactId>
+    <artifactId>device</artifactId>
 
     <dependencies>
         <dependency>
@@ -27,6 +27,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
@@ -66,6 +67,7 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -120,7 +122,7 @@
                     <!--当前模块需指定main入口-->
                     <skip>false</skip>
                     <!--指定SpringBoot启动 main方法入口-->
-                    <mainClass>com.itc.sua.analysis.DataAnalysisMain</mainClass>
+                    <mainClass>com.itc.sua.device.DeviceMain</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -170,4 +172,5 @@
             </properties>
         </profile>
     </profiles>
+
 </project>
