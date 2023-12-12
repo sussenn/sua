@@ -12,8 +12,8 @@
                     defaultValue="sua"/>
 
     <!--0. 日志格式 -->
-    <property name="LOG_PATTERN"
-              value="%date{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%thread] %logger{50} - TID:N/A - %msg%n"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{50} - TID:N/A %msg%n"/>
+<!--    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %X{tl} [%thread] %-5level %logger{50} - %msg%n"/>-->
 
     <!--1. 输出到控制台-->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">

@@ -1,6 +1,5 @@
 package com.itc.sua.analysis;
 
-import com.yomahub.tlog.core.enhance.bytes.AspectLogEnhance;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,9 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan("com.itc.sua.analysis.mapper")
 public class DataAnalysisMain {
     // TLog日志
-    static {
-        AspectLogEnhance.enhance();
-    }
+    //static {
+    //    AspectLogEnhance.enhance();
+    //}
 
     public static void main(String[] args) {
         SpringApplication.run(DataAnalysisMain.class, args);
