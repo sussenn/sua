@@ -1,7 +1,7 @@
 package com.itc.sua.device.service;
 
 import com.itc.sua.common.pojo.R;
-import com.itc.sua.device.feign.pojo.CommonDataResp;
+import com.itc.sua.feign.pojo.analysis.CommonDataResp;
 
 /**
  * @ClassName DeviceService

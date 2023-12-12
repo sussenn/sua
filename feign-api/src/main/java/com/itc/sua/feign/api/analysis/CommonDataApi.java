@@ -1,7 +1,7 @@
-package com.itc.sua.device.feign.api;
+package com.itc.sua.feign.api.analysis;
 
 import com.itc.sua.common.pojo.R;
-import com.itc.sua.device.feign.pojo.CommonDataResp;
+import com.itc.sua.feign.pojo.analysis.CommonDataResp;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

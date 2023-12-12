@@ -2,11 +2,11 @@ package com.itc.sua.device.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itc.sua.common.pojo.R;
-import com.itc.sua.device.feign.api.CommonDataApi;
-import com.itc.sua.device.feign.pojo.CommonDataResp;
 import com.itc.sua.device.mapper.DeviceMapper;
 import com.itc.sua.device.pojo.entity.DeviceDO;
 import com.itc.sua.device.service.DeviceService;
+import com.itc.sua.feign.api.analysis.CommonDataApi;
+import com.itc.sua.feign.pojo.analysis.CommonDataResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

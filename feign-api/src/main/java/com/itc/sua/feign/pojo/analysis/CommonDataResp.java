@@ -1,4 +1,4 @@
-package com.itc.sua.device.feign.pojo;
+package com.itc.sua.feign.pojo.analysis;
 
 import lombok.Data;
 
