@@ -19,7 +19,11 @@ public enum ApiErrCode {
      */
     UNKNOWN(-1, "未知错误"),
 
-    SUCCESS(0, "成功");
+    SUCCESS(0, "成功"),
+
+    EMPTY(1, "暂无数据"),
+
+    ;
 
     private final Integer code;
 

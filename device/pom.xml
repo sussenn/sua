@@ -65,10 +65,6 @@
         </dependency>
 
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.yomahub</groupId>
             <artifactId>tlog-web-spring-boot-starter</artifactId>
             <exclusions>

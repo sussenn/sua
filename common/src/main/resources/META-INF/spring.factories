@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.itc.sua.common.config.MvcConfig,\
+com.itc.sua.common.config.MyBatisPlusConfig

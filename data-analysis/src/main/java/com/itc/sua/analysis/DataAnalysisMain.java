@@ -1,10 +1,11 @@
 package com.itc.sua.analysis;
 
-import com.itc.sua.feign.config.DefaultFeignLogConfig;
+import com.itc.sua.feign.config.DefaultFeignConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
  * @ClassName DataAnalysisMain
@@ -14,7 +15,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @MapperScan("com.itc.sua.analysis.mapper")
-@EnableFeignClients(defaultConfiguration = DefaultFeignLogConfig.class)
+@EnableFeignClients(defaultConfiguration = DefaultFeignConfig.class)
+@ComponentScan(basePackages = {"com.itc.sua.*"})
 public class DataAnalysisMain {
     // TLog日志
     //static {

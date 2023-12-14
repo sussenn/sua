@@ -9,59 +9,50 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>data-analysis</artifactId>
+    <artifactId>gateway</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.itc</groupId>
             <artifactId>common</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.itc</groupId>
-            <artifactId>feign-api</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <!-- gateway使用webflux, 与webmvc不兼容 -->
             <exclusions>
                 <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-webmvc</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
 
-        <!--nacos-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
         <!--nacos config-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
+        <!-- 负载均衡 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
 
-        <!--Undertow服务器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.yomahub</groupId>
             <artifactId>tlog-web-spring-boot-starter</artifactId>
@@ -76,29 +67,6 @@
             <groupId>com.yomahub</groupId>
             <artifactId>tlog-gateway-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.yomahub</groupId>
-            <artifactId>tlog-feign-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -112,7 +80,7 @@
                     <!--当前模块需指定main入口-->
                     <skip>false</skip>
                     <!--指定SpringBoot启动 main方法入口-->
-                    <mainClass>com.itc.sua.analysis.DataAnalysisMain</mainClass>
+                    <mainClass>com.itc.sua.device.GatewayMain</mainClass>
                 </configuration>
             </plugin>
         </plugins>
@@ -131,7 +99,6 @@
                     <include>application.yml</include>
                     <include>application-${profileActive}.yml</include>
                     <include>logback-spring.xml</include>
-                    <include>mapper/*Mapper.xml</include>
                 </includes>
             </resource>
         </resources>

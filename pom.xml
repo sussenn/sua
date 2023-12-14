@@ -16,6 +16,7 @@
         <module>data-analysis</module>
         <module>device</module>
         <module>feign-api</module>
+        <module>gateway</module>
     </modules>
 
     <parent>

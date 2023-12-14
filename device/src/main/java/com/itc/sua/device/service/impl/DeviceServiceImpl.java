@@ -23,6 +23,7 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, DeviceDO> imple
 
     @Autowired
     private CommonDataApi commonDataApi;
+
     @Override
     public R<CommonDataResp> getCommonData(String eid) {
         log.info("device module call data-analysis start >>>");
