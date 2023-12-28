@@ -1,7 +1,7 @@
 package com.itc.sua.common.interceptor;
 
 import cn.hutool.core.util.StrUtil;
-import com.itc.sua.common.constants.user.UserConstants;
+import com.itc.sua.common.constants.system.SecurityConstants;
 import com.itc.sua.common.utils.UserContext;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,7 +18,7 @@ public class UserInfoInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String userId = request.getHeader(UserConstants.Auth.USER_ID);
+        String userId = request.getHeader(SecurityConstants.AuthHeader.USER_ID);
         if (StrUtil.isNotBlank(userId)) {
             UserContext.setUser(userId);
         }

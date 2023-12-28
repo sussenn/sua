@@ -32,8 +32,12 @@ public class R<T> implements Serializable {
                 .setData(data);
     }
 
-    public static <T> R<T> error(Integer code,String msg) {
+    public static <T> R<T> error(Integer code, String msg) {
         return new R<T>().setCode(code).setMsg(msg);
+    }
+
+    public static <T> R<T> error(String msg) {
+        return new R<T>().setCode(ApiErrCode.UNKNOWN.getCode()).setMsg(msg);
     }
 
     public static <T> R<T> error(ApiErrCode code) {

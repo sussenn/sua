@@ -23,6 +23,9 @@ public enum ApiErrCode {
 
     EMPTY(1, "暂无数据"),
 
+    AUTH_FAIL(4001, "认证失败"),
+    PERMS_LACK(4002, "权限不足"),
+
     ;
 
     private final Integer code;

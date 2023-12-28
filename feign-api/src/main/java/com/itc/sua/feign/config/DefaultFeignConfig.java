@@ -1,6 +1,6 @@
 package com.itc.sua.feign.config;
 
-import com.itc.sua.common.constants.user.UserConstants;
+import com.itc.sua.common.constants.system.SecurityConstants;
 import com.itc.sua.common.utils.UserContext;
 import feign.Logger;
 import feign.RequestInterceptor;
@@ -25,7 +25,7 @@ public class DefaultFeignConfig {
     @Bean
     public RequestInterceptor userInfoInterceptor() {
         return requestTemplate -> requestTemplate
-                .header(UserConstants.Auth.USER_ID, UserContext.getUser());
+                .header(SecurityConstants.AuthHeader.USER_ID, UserContext.getUser());
     }
 
 }

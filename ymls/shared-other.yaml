@@ -1,0 +1,32 @@
+logging:
+  config: classpath:logback-spring.xml
+  level:
+    com.itc.sua: info
+    com.itc.sua.feign.api: debug
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      logic-delete-field: delFlag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+
+server:
+  undertow:
+    accesslog:
+      dir: /web/und/log
+      enabled: true
+      pattern: common
+      prefix: und-${spring.application.name}
+      suffix: .log
+    max-http-post-size: 0
+    buffer-size: 1024
+    direct-buffers: true
+    threads:
+      io: 8
+      worker: 64
+
+tlog:
+  pattern: <$preApp><$spanId><$traceId>

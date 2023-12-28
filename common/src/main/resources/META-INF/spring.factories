@@ -1,3 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 com.itc.sua.common.config.MvcConfig,\
-com.itc.sua.common.config.MyBatisPlusConfig
+com.itc.sua.common.config.MyBatisPlusConfig,\
+com.itc.sua.common.config.GlobalExceptionConfig,\
+com.itc.sua.common.config.RedisConfig

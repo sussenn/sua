@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @Date 2023/12/12
  */
 @RestController
-@RequestMapping("/device")
+@RequestMapping("/device/common")
 public class DeviceController {
 
     @Autowired

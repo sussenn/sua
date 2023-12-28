@@ -1,0 +1,36 @@
+spring:
+  cloud:
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true #放行options请求
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*" #允许所有网站跨域
+            allowedMethods: "*" #允许所有请求方式跨域
+            allowedHeaders: "*" #允许请求头携带信息
+            allowCredentials: true  #允许携带cookie
+            maxAge: 360000  #本次跨域检测有效期
+      routes:
+        - id: data-analysis
+          uri: lb://data-analysis
+          predicates:
+            - Path=/commonData/**
+          filters:
+            - Auth
+        - id: device
+          uri: lb://device
+          predicates:
+            - Path=/device/**
+          filters:
+            - Auth
+        - id: system
+          uri: lb://system
+          predicates:
+            - Path=/system/**
+
+sua:
+  auth:
+    includePaths:
+      - /one/**
+    excludePaths:
+      - /api/**

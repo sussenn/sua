@@ -11,6 +11,10 @@
 
     <artifactId>gateway</artifactId>
 
+    <properties>
+        <jjwt.version>0.12.3</jjwt.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>com.itc</groupId>
@@ -67,6 +71,33 @@
             <groupId>com.yomahub</groupId>
             <artifactId>tlog-gateway-spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- jwt -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -80,7 +111,7 @@
                     <!--当前模块需指定main入口-->
                     <skip>false</skip>
                     <!--指定SpringBoot启动 main方法入口-->
-                    <mainClass>com.itc.sua.device.GatewayMain</mainClass>
+                    <mainClass>com.itc.sua.gateway.GatewayMain</mainClass>
                 </configuration>
             </plugin>
         </plugins>

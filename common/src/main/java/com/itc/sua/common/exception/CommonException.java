@@ -13,10 +13,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CommonException extends RuntimeException {
-    private static final long serialVersionUID = -6367351351017436312L;
+    private static final long serialVersionUID = -6139060581415880867L;
 
-    private String code;
-    private Integer status;
+    private Integer code;
+    private String msg;
 
     public CommonException(Throwable throwable) {
         super(throwable);
@@ -24,13 +24,8 @@ public class CommonException extends RuntimeException {
     }
 
     public CommonException(String message) {
-        this(message, ApiErrCode.UNKNOWN);
-
-    }
-
-    public CommonException(String message, ApiErrCode errorCode) {
-        super(message);
-        this.errorCode(errorCode);
+        this.code = ApiErrCode.UNKNOWN.getCode();
+        this.msg = message;
     }
 
     public CommonException(Throwable throwable, String message, ApiErrCode errorCode) {
@@ -51,23 +46,23 @@ public class CommonException extends RuntimeException {
      * 根据异常码创建异常
      */
     public void errorCode(ApiErrCode errorCode) {
-        this.status = errorCode.getCode();
-        this.code = errorCode.name();
+        this.code = errorCode.getCode();
+        this.msg = errorCode.getMessage();
     }
 
     /**
      * 异常码
      */
-    public CommonException code(String code) {
-        this.code = code;
+    public CommonException msg(String msg) {
+        this.msg = msg;
         return this;
     }
 
     /**
      * 状态码
      */
-    public CommonException status(Integer status) {
-        this.status = status;
+    public CommonException code(Integer code) {
+        this.code = code;
         return this;
     }
 }

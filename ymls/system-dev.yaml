@@ -1,0 +1,9 @@
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+su:
+  db:
+    host: 101.34.215.91
+    port: 3306
+    database: sua_sys
+    psw: rootroot

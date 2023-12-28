@@ -2,21 +2,26 @@ package com.itc.sua.gateway.filter;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.text.AntPathMatcher;
-import com.itc.sua.common.constants.user.UserConstants;
+import com.itc.sua.common.constants.system.SecurityConstants;
 import com.itc.sua.common.exception.CommonException;
+import com.itc.sua.common.pojo.auth.AuthLoginUser;
 import com.itc.sua.gateway.config.AuthPathsConfig;
+import com.itc.sua.gateway.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.OrderedGatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.Ordered;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -35,6 +40,8 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Objec
 
     private final AuthPathsConfig authPathsConfig;
 
+    private final RedisTemplate<String, Object> redisTemplate;
+
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
 
     @Override
@@ -48,28 +55,50 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Objec
             }
 
             HttpHeaders headers = request.getHeaders();
-            String token = null;
-            List<String> auth = headers.get(UserConstants.Auth.TOKEN);
-            if (CollectionUtil.isNotEmpty(auth)) {
-                token = auth.get(0);
-                log.info("get token = [{}]", token);
+            List<String> auth = headers.get(SecurityConstants.AuthHeader.TOKEN);
+            if (CollectionUtil.isEmpty(auth)) {
+                return buildErrVoidMono(exchange, HttpStatus.UNAUTHORIZED);
             }
+            String token = auth.get(0);
+            log.info("[apply] >>> get token = [{}]", token);
+
             String userId;
-            // JWTUtil解析token
             try {
-                userId = "10086";
-                log.info("gateway userId = [{}]", userId);
+                // JWTUtil解析token
+                userId = JwtUtil.getClaims(token).getSubject();
+                log.info("[apply] >>> userId = [{}]", userId);
             } catch (CommonException e) {
-                ServerHttpResponse response = exchange.getResponse();
-                response.setStatusCode(HttpStatus.UNAUTHORIZED);
-                return response.setComplete();
+                return buildErrVoidMono(exchange, HttpStatus.UNAUTHORIZED);
+            }
+
+            // 从redis获取用户权限
+            String userIdKey = SecurityConstants.RedisKey.AUTH_USER + userId;
+            AuthLoginUser loginUser = (AuthLoginUser) redisTemplate.opsForValue().get(userIdKey);
+            if (null == loginUser) {
+                return buildErrVoidMono(exchange, HttpStatus.UNAUTHORIZED);
+            }
+            List<String> pathList = loginUser.getPathList();
+            if (CollectionUtil.isEmpty(pathList)) {
+                return buildErrVoidMono(exchange, HttpStatus.FORBIDDEN);
+            }
+            boolean hasPath = pathList.stream().anyMatch(path::startsWith);
+            if (!hasPath) {
+                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+                return exchange.getResponse().setComplete();
             }
             // 传递userId
             ServerWebExchange swe = exchange.mutate()
-                    .request(builder -> builder.header(UserConstants.Auth.USER_ID, userId))
+                    .request(builder -> builder.header(SecurityConstants.AuthHeader.USER_ID, userId))
                     .build();
             return chain.filter(swe);
         }, Ordered.LOWEST_PRECEDENCE - 1);
+    }
+
+    @NotNull
+    private static Mono<Void> buildErrVoidMono(ServerWebExchange exchange, HttpStatus status) {
+        ServerHttpResponse response = exchange.getResponse();
+        response.setStatusCode(status);
+        return response.setComplete();
     }
 
     private boolean isExclude(String path) {
