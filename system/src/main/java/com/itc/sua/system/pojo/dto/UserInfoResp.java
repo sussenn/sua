@@ -1,5 +1,6 @@
 package com.itc.sua.system.pojo.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.itc.sua.system.pojo.entity.SysRoleDO;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -28,5 +29,6 @@ public class UserInfoResp implements Serializable {
 
     private Boolean enabled;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<SysRoleDO> roleList;
 }

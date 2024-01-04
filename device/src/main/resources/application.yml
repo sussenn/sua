@@ -8,6 +8,25 @@ spring:
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
+  cloud:
+    stream:
+      function:
+        definition: consumer
+
+      bindings:
+        consumer-in-0:
+          destination: 'topic-0'
+          content-type: application/json
+          group: output_0
+          binder: rocketmq
+
+      rocketmq:
+        binder:
+          name-server: '101.34.215.91:9876'
+        bindings:
+          consumer-in-0:
+            consumer:
+              group: output_0
 
 feign:
   okhttp:

@@ -42,6 +42,8 @@
         <tlog.version>1.5.1</tlog.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok.version>1.18.30</lombok.version>
+        <rocket.version>2.2.3</rocket.version>
+        <rocket.client.version>5.1.4</rocket.client.version>
     </properties>
 
     <dependencyManagement>
@@ -120,6 +122,18 @@
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
             </dependency>
+
+<!--            <dependency>-->
+<!--                <groupId>org.apache.rocketmq</groupId>-->
+<!--                <artifactId>rocketmq-spring-boot-starter</artifactId>-->
+<!--                <version>${rocket.version}</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.apache.rocketmq</groupId>-->
+<!--                <artifactId>rocketmq-client</artifactId>-->
+<!--                <version>${rocket.client.version}</version>-->
+<!--            </dependency>-->
+
 
         </dependencies>
     </dependencyManagement>

@@ -22,7 +22,7 @@ public class JwtUtil {
      */
     public static Claims getClaims(String token) {
         return Jwts.parser()
-                .decryptWith(KEY)
+                .verifyWith(KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

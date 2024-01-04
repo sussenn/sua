@@ -71,7 +71,7 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Objec
                 return buildErrVoidMono(exchange, HttpStatus.UNAUTHORIZED);
             }
 
-            // 从redis获取用户权限
+            // 从redis获取用户url权限
             String userIdKey = SecurityConstants.RedisKey.AUTH_USER + userId;
             AuthLoginUser loginUser = (AuthLoginUser) redisTemplate.opsForValue().get(userIdKey);
             if (null == loginUser) {
@@ -79,12 +79,13 @@ public class AuthGatewayFilterFactory extends AbstractGatewayFilterFactory<Objec
             }
             List<String> pathList = loginUser.getPathList();
             if (CollectionUtil.isEmpty(pathList)) {
+                log.error("[apply] >>> user pathList is null");
                 return buildErrVoidMono(exchange, HttpStatus.FORBIDDEN);
             }
             boolean hasPath = pathList.stream().anyMatch(path::startsWith);
             if (!hasPath) {
-                exchange.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-                return exchange.getResponse().setComplete();
+                log.error("[apply] >>> user not has pathAuth, path=[{}]", path);
+                return buildErrVoidMono(exchange, HttpStatus.FORBIDDEN);
             }
             // 传递userId
             ServerWebExchange swe = exchange.mutate()

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @Date 2023/12/12
  */
 @RestController
-@RequestMapping("/commonData")
+@RequestMapping("/data/common")
 public class CommonDataController {
 
     @Autowired
