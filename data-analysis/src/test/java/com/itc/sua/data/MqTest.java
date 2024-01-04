@@ -16,16 +16,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class MqTest {
 
     @Autowired
-    private RocketProducer producer;
+    private RocketProducer rocketProducer;
+
+    @Test
+    public void test003() {
+        rocketProducer.sendDelay("延迟消息222", 2);
+    }
 
     @Test
     public void test002() {
-        producer.sendDelayMsg("延迟消息009");
+        rocketProducer.sendSync("异步消息111");
     }
 
     @Test
     public void test001() {
-        producer.send("zsc0007");
-
+        rocketProducer.send("简单消息001");
     }
 }

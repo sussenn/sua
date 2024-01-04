@@ -7,3 +7,11 @@ su:
     port: 3306
     database: sua
     psw: rootroot
+
+rocketmq:
+  name-server: '101.34.215.91:9876'
+  consumer:
+    group: sus_group
+  producer:
+    group: sus_group
+    send-message-timeout: 5000

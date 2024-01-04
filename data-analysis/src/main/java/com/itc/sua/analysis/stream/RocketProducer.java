@@ -1,10 +1,12 @@
 package com.itc.sua.analysis.stream;
 
+import com.itc.sua.common.constants.analysis.AnalysisConstants;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.common.message.MessageConst;
+import org.apache.rocketmq.client.producer.SendCallback;
+import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.stream.function.StreamBridge;
-import org.springframework.messaging.Message;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -19,29 +21,35 @@ import org.springframework.stereotype.Component;
 public class RocketProducer {
 
     @Autowired
-    private StreamBridge streamBridge;
+    private RocketMQTemplate mqTemplate;
+    @Value("${rocketmq.producer.send-message-timeout}")
+    private Integer messageTimeOut;
+
+    private final String TOPIC = AnalysisConstants.MqTopic.TOPIC;
 
     public void send(Object msg) {
-        streamBridge.send("producer-out-0",
-                MessageBuilder.withPayload(msg).build());
-        log.info("[send] >>> send msg: {}", msg);
+        mqTemplate.send(TOPIC + ":tag1", MessageBuilder.withPayload(msg).build());
     }
 
-    public void sendDelayMsg(String msg) {
-        // private String messageDelayLevel = "1s 5s 10s 30s 1m 2m 3m 4m 5m 6m 7m 8m 9m 10m 20m 30m 1h 2h";
-        // 4级表示延迟30s
+    public void sendSync(Object msg) {
+        mqTemplate.asyncSend(TOPIC + ":tag2", MessageBuilder.withPayload(msg).build(), new SendCallback() {
+            @Override
+            public void onSuccess(SendResult sendResult) {
+                log.info("[sendSync] success >>>");
+            }
 
-        Message<String> message = MessageBuilder
-                .withPayload(msg)
-                .setHeader(MessageConst.PROPERTY_DELAY_TIME_LEVEL, 2)
-                .build();
-        streamBridge.send("producer-out-0", message);
+            @Override
+            public void onException(Throwable throwable) {
+                log.error("[sendSync] fail >>>");
+            }
+        });
+    }
 
-        //Map<String, Object> headers = new HashMap<>();
-        //headers.put(MessageConst.PROPERTY_DELAY_TIME_LEVEL, 2);
-        //GenericMessage<Object> message = new GenericMessage<>(msg, headers);
-        //streamBridge.send("producer-out-0", message);
-        log.info("[sendDelayMsg] >>> send msg: {}", msg);
+    public void sendDelay(Object msg, int lev) {
+        mqTemplate.syncSend(TOPIC + ":tag3",
+                MessageBuilder.withPayload(msg).build(),
+                messageTimeOut,
+                lev);
     }
 
 }
