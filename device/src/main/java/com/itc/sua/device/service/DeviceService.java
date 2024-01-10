@@ -13,4 +13,6 @@ import com.itc.sua.feign.pojo.analysis.CommonDataResp;
  */
 public interface DeviceService extends IService<DeviceDO> {
     R<CommonDataResp> getCommonData(String eid);
+
+    String test(String p);
 }

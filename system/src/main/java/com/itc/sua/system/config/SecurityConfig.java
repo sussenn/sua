@@ -54,7 +54,8 @@ public class SecurityConfig {
         return http.authorizeHttpRequests((auth) ->
                         auth.mvcMatchers("/auth/login",
                                         "/auth/getImgCode",
-                                        "/auth/getSmsCode").permitAll()
+                                        "/auth/getSmsCode",
+                                        "/auth/logout").permitAll()
                                 .antMatchers(
                                         HttpMethod.GET,
                                         "/*.html",

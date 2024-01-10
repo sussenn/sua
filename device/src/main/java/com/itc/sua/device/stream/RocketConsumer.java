@@ -1,9 +1,11 @@
 package com.itc.sua.device.stream;
 
 import com.itc.sua.common.constants.analysis.AnalysisConstants;
+import com.itc.sua.device.service.DeviceService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -23,15 +25,19 @@ public class RocketConsumer {
     @Service
     @RocketMQMessageListener(topic = TOPIC, selectorExpression = "tag1", consumerGroup = "conSum-one")
     public static class ConsumerSimp implements RocketMQListener<Object> {
+        @Autowired
+        private DeviceService deviceService;
+
         @Override
         public void onMessage(Object msg) {
-            log.info("[ConsumerSimp] consumer msg = {}", msg);
+            String s = deviceService.test(msg.toString());
+            log.info("[ConsumerSimp] consumer res = {}", s);
         }
     }
 
     @Service
     @RocketMQMessageListener(topic = TOPIC, selectorExpression = "tag2", consumerGroup = "conSum-two")
-    public static class ConsumerSync implements RocketMQListener<Object> {
+    public static class ConsumerAsync implements RocketMQListener<Object> {
         @Override
         public void onMessage(Object msg) {
             log.info("[ConsumerSync] consumer msg = {}", msg);
@@ -44,6 +50,15 @@ public class RocketConsumer {
         @Override
         public void onMessage(Object msg) {
             log.info("[ConsumerDelay] consumer msg = {}", msg);
+        }
+    }
+
+    @Service
+    @RocketMQMessageListener(topic = TOPIC, selectorExpression = "tag4", consumerGroup = "conSum-four")
+    public static class ConsumerSync implements RocketMQListener<Object> {
+        @Override
+        public void onMessage(Object msg) {
+            log.info("[ConsumerSync] consumer msg = {}", msg);
         }
     }
 }

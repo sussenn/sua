@@ -19,17 +19,23 @@ public class MqTest {
     private RocketProducer rocketProducer;
 
     @Test
+    public void test004() {
+        Boolean suc = rocketProducer.sendSync("同步消息333");
+        System.err.println(suc);
+    }
+
+    @Test
     public void test003() {
         rocketProducer.sendDelay("延迟消息222", 2);
     }
 
     @Test
     public void test002() {
-        rocketProducer.sendSync("异步消息111");
+        rocketProducer.sendAsync("异步消息111");
     }
 
     @Test
     public void test001() {
-        rocketProducer.send("简单消息001");
+        rocketProducer.send("简单消息0001");
     }
 }

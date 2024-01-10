@@ -29,4 +29,9 @@ public class DeviceServiceImpl extends ServiceImpl<DeviceMapper, DeviceDO> imple
         log.info("device module call data-analysis start >>>");
         return commonDataApi.findByEveId(eid);
     }
+
+    @Override
+    public String test(String p) {
+        return "p=" + p;
+    }
 }

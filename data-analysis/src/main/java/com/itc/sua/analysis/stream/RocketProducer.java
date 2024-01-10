@@ -4,6 +4,7 @@ import com.itc.sua.common.constants.analysis.AnalysisConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
+import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,10 +29,15 @@ public class RocketProducer {
     private final String TOPIC = AnalysisConstants.MqTopic.TOPIC;
 
     public void send(Object msg) {
-        mqTemplate.send(TOPIC + ":tag1", MessageBuilder.withPayload(msg).build());
+        //mqTemplate.send(TOPIC + ":tag1", MessageBuilder.withPayload(msg).build());
+        mqTemplate.convertAndSend(TOPIC + ":tag1", msg);
     }
 
-    public void sendSync(Object msg) {
+    /**
+     * 发送异步消息
+     * @param msg
+     */
+    public void sendAsync(Object msg) {
         mqTemplate.asyncSend(TOPIC + ":tag2", MessageBuilder.withPayload(msg).build(), new SendCallback() {
             @Override
             public void onSuccess(SendResult sendResult) {
@@ -45,11 +51,27 @@ public class RocketProducer {
         });
     }
 
+    /**
+     * 发送延迟消息
+     * @param msg
+     * @param lev
+     */
     public void sendDelay(Object msg, int lev) {
         mqTemplate.syncSend(TOPIC + ":tag3",
                 MessageBuilder.withPayload(msg).build(),
                 messageTimeOut,
                 lev);
+    }
+
+    /**
+     * 发送同步(顺序)消息
+     * @param msg
+     * @return
+     */
+    public Boolean sendSync(Object msg) {
+        SendResult result = mqTemplate.syncSend(TOPIC + ":tag4",
+                MessageBuilder.withPayload(msg).build());
+        return SendStatus.SEND_OK.equals(result.getSendStatus());
     }
 
 }
